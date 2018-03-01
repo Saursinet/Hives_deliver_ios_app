@@ -17,18 +17,31 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // Do any additional setup after loading the view, typically from a nib.
         let textFieldUnderlineColor = UIColor.init(red:55/255.0, green:61/255.0, blue:66/255.0, alpha: 1.0).cgColor
         Helper.setTextFieldInvisibleWithBottomLine(textField: usernameTextField, color: textFieldUnderlineColor)
         Helper.setTextFieldInvisibleWithBottomLine(textField: passwordTextField, color: textFieldUnderlineColor)
         Helper.setValidateDesignToButton(button: loginButton)
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        
+        //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
+        tap.cancelsTouchesInView = false
+        
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard(_sender: Any) {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     @IBAction func signIn(_ sender: Any) {
         if (usernameTextField.text?.count == 0 || passwordTextField.text?.count == 0) {
             DispatchQueue.main.async {

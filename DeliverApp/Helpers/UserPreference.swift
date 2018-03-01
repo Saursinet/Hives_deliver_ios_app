@@ -10,6 +10,16 @@ import Foundation
 
 class userPreferences {
     
+    static func storeToken(json: [String: AnyObject]) {
+        for _ in json {
+            if let token = json["token"] {
+                if !userPreferences.save(token: token as! String, key: "Token") {
+                    print("Error saving access Token")
+                }
+            }
+        }
+    }
+
     static func save(token: String, key: String) -> Bool {
         let preferences = UserDefaults.standard
         preferences.set(token, forKey: key)

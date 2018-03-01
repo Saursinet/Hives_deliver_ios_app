@@ -78,7 +78,7 @@ class DataController {
                 if success {
                     print("success")
                     print(json!)
-                    Helper.storeToken(json: json as! [String : AnyObject])
+                    userPreferences.storeToken(json: json as! [String : AnyObject])
                     completion(true, nil)
                 } else {
                     print("error")

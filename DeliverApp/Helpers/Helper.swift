@@ -28,13 +28,4 @@ class Helper {
 //        button.layer.borderColor = UIColor.black.cgColor
     }
     
-    static func storeToken(json: [String: AnyObject]) {
-        for _ in json {
-            if let token = json["token"] {
-                if !userPreferences.save(token: token as! String, key: "Token") {
-                    print("Error saving access Token")
-                }
-            }
-        }
-    }
 }
