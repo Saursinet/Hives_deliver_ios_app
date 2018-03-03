@@ -12,8 +12,11 @@ class PasswordViewController: UIViewController {
     
     @IBOutlet weak var passwordLabel: UILabel!
     @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var eyeButton: UIButton!
     
     @IBOutlet weak var nextButton: UIBarButtonItem!
+    
+    var eyeOpen: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +26,8 @@ class PasswordViewController: UIViewController {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         
         passwordTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        
+        passwordTextField.isSecureTextEntry = true
         
         //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
         tap.cancelsTouchesInView = false
@@ -48,6 +53,18 @@ class PasswordViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    @IBAction func clearOrUnclearPassword(_ sender: Any) {
+        if (eyeOpen) {
+            eyeButton.setImage(#imageLiteral(resourceName: "closed-eye"), for: .normal)
+            passwordTextField.isSecureTextEntry = true
+            eyeOpen = false
+        } else {
+            eyeButton.setImage(#imageLiteral(resourceName: "eye"), for: .normal)
+            passwordTextField.isSecureTextEntry = false
+            eyeOpen = true
+        }
     }
     
     @IBAction func signIn(_ sender: Any) {

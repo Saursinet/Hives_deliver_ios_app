@@ -141,7 +141,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Awg-HT-lqo">
-                                <rect key="frame" x="16" y="318.5" width="343" height="30"/>
+                                <rect key="frame" x="16" y="319" width="311" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Xne-iD-gHh"/>
                                 </constraints>
@@ -158,13 +158,26 @@
                                 <color key="textColor" red="0.2156862745" green="0.23921568630000001" blue="0.25882352939999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N7W-Bz-DMp">
+                                <rect key="frame" x="335" y="321" width="24" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="24" id="09O-DL-MeF"/>
+                                    <constraint firstAttribute="height" constant="24" id="e8T-gr-ajZ"/>
+                                </constraints>
+                                <state key="normal" image="closed-eye"/>
+                                <connections>
+                                    <action selector="clearOrUnclearPassword:" destination="lDh-aU-izP" eventType="touchUpInside" id="09b-P0-5gs"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="RB1-uA-Guf" firstAttribute="trailing" secondItem="Awg-HT-lqo" secondAttribute="trailing" constant="16" id="449-cU-oGX"/>
+                            <constraint firstItem="N7W-Bz-DMp" firstAttribute="centerY" secondItem="R5u-5D-dCn" secondAttribute="centerY" id="G5v-nk-izC"/>
+                            <constraint firstItem="N7W-Bz-DMp" firstAttribute="leading" secondItem="Awg-HT-lqo" secondAttribute="trailing" constant="8" id="NwN-LP-mGn"/>
                             <constraint firstItem="Awg-HT-lqo" firstAttribute="leading" secondItem="RB1-uA-Guf" secondAttribute="leading" constant="16" id="Yqq-ab-vP6"/>
                             <constraint firstItem="Awg-HT-lqo" firstAttribute="top" secondItem="uBL-t7-ITT" secondAttribute="bottom" constant="8" id="bS3-7l-cGe"/>
                             <constraint firstItem="Awg-HT-lqo" firstAttribute="centerY" secondItem="R5u-5D-dCn" secondAttribute="centerY" id="gwa-HS-m3U"/>
+                            <constraint firstItem="RB1-uA-Guf" firstAttribute="trailing" secondItem="N7W-Bz-DMp" secondAttribute="trailing" constant="16" id="jtT-XY-os7"/>
                             <constraint firstItem="Awg-HT-lqo" firstAttribute="top" secondItem="uBL-t7-ITT" secondAttribute="bottom" constant="8" id="vh6-WJ-LMY"/>
                             <constraint firstItem="uBL-t7-ITT" firstAttribute="leading" secondItem="RB1-uA-Guf" secondAttribute="leading" constant="16" id="vq6-l0-ofq"/>
                         </constraints>
@@ -181,6 +194,7 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="eyeButton" destination="N7W-Bz-DMp" id="a5P-wi-g96"/>
                         <outlet property="nextButton" destination="hZV-vP-Lam" id="Ym7-ez-tC7"/>
                         <outlet property="passwordLabel" destination="uBL-t7-ITT" id="Lwh-RW-ehJ"/>
                         <outlet property="passwordTextField" destination="Awg-HT-lqo" id="iDC-6i-PPf"/>
@@ -188,7 +202,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ws1-yp-NUk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="503" y="134"/>
+            <point key="canvasLocation" x="501.60000000000002" y="133.5832083958021"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -424,6 +438,7 @@
     </scenes>
     <resources>
         <image name="Hives-white" width="620" height="230"/>
+        <image name="closed-eye" width="24" height="24"/>
         <image name="cross" width="40" height="40"/>
     </resources>
 </document>
