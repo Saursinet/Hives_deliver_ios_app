@@ -8,10 +8,13 @@
 
 import UIKit
 
-class EmailAddressViewController: UIViewController {
+class EmailAddressViewController: UIViewController, UITextFieldDelegate {
+    
+    var domainName: String?
     
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var emailErrorLabel: UILabel!
     
     @IBOutlet weak var nextButton: UIBarButtonItem!
     
@@ -20,29 +23,31 @@ class EmailAddressViewController: UIViewController {
         
         // Do any additional setup after loading the view, typically from a nib.
         
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        
         emailTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+                
+        emailTextField.delegate = self
+        emailTextField.enablesReturnKeyAutomatically = false
         
+        emailErrorLabel.numberOfLines = 0
         //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
-        tap.cancelsTouchesInView = false
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
-        view.addGestureRecognizer(tap)
+        emailTextField.becomeFirstResponder()
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {
         if (emailTextField.text?.count != 0) {
             nextButton.tintColor = UIColor(red: 21/255, green: 126/255, blue: 251/255, alpha: 1)
             emailLabel.isHidden = false
+            emailTextField.enablesReturnKeyAutomatically = true
         } else {
             nextButton.tintColor = UIColor.lightGray
             emailLabel.isHidden = true
+            emailTextField.enablesReturnKeyAutomatically = false
         }
-    }
-    
-    @objc func dismissKeyboard(_sender: Any) {
-        //Causes the view (or one of its embedded text fields) to resign the first responder status.
-        view.endEditing(true)
     }
     
     override func didReceiveMemoryWarning() {
@@ -50,15 +55,26 @@ class EmailAddressViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        if (emailTextField.text?.count != 0) {
+            performSegue(withIdentifier: "goToPasswordView", sender: nil)
+        } else {
+            emailTextField.shake()
+            emailErrorLabel.text = "No account found. If you're sure you've signep up for \(String(describing: domainName!)), you can try another email address."
+            emailErrorLabel.isHidden = false
+        }
+        
+        return true
+    }
+    
     override func shouldPerformSegue(withIdentifier identifier: String?, sender: Any?) -> Bool {
         if let ident = identifier {
             if ident == "goToPasswordView" {
                 if (emailTextField.text?.count == 0) {
-                    DispatchQueue.main.async {
-                        let alert = UIAlertController(title: "No workspace correspond", message: "Try another workspace.", preferredStyle: UIAlertControllerStyle.alert)
-                        alert.addAction(UIAlertAction(title: "Sign in", style: UIAlertActionStyle.default, handler: nil))
-                        self.present(alert, animated: true, completion: nil)
-                    }
+                    emailTextField.shake()
+                    emailErrorLabel.text = "No account found. If you're sure you've signep up for \(String(describing: domainName!)), you can try another email address."
+                    emailErrorLabel.isHidden = false
                     return false
                 }
             }
@@ -73,6 +89,10 @@ class EmailAddressViewController: UIViewController {
         navigationController?.navigationBar.backIndicatorImage = #imageLiteral(resourceName: "back-arrow")
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = #imageLiteral(resourceName: "back-arrow")
         navigationController?.navigationBar.tintColor = UIColor.black
+        
+        let destinationVC = segue.destination as! PasswordViewController
+        destinationVC.domainName = domainName
+        destinationVC.emailAddress = emailTextField.text!
     }
 }
 

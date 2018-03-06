@@ -18,6 +18,8 @@
 		8B4E0CA02046A44700E09E55 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E0C9F2046A44700E09E55 /* Helper.swift */; };
 		8B4E0CA22046A70800E09E55 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E0CA12046A70800E09E55 /* DataController.swift */; };
 		8B4E0CA42046A7CF00E09E55 /* UserPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E0CA32046A7CF00E09E55 /* UserPreference.swift */; };
+		8B925BE8204E604F00CFD2EC /* OverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B925BE7204E604F00CFD2EC /* OverviewViewController.swift */; };
+		8B925BEA204E623800CFD2EC /* CircleGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B925BE9204E623800CFD2EC /* CircleGraphView.swift */; };
 		8BB42810204AB651003CDBEC /* WorkspaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB4280C204AB651003CDBEC /* WorkspaceViewController.swift */; };
 		8BB42815204ABE11003CDBEC /* ConcatTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB42814204ABE11003CDBEC /* ConcatTextField.swift */; };
 		8BB8B120204AC703003CA23B /* EmailAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB8B11F204AC703003CA23B /* EmailAddressViewController.swift */; };
@@ -61,6 +63,8 @@
 		8B4E0C9F2046A44700E09E55 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		8B4E0CA12046A70800E09E55 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		8B4E0CA32046A7CF00E09E55 /* UserPreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreference.swift; sourceTree = "<group>"; };
+		8B925BE7204E604F00CFD2EC /* OverviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewViewController.swift; sourceTree = "<group>"; };
+		8B925BE9204E623800CFD2EC /* CircleGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleGraphView.swift; sourceTree = "<group>"; };
 		8BB4280C204AB651003CDBEC /* WorkspaceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkspaceViewController.swift; sourceTree = "<group>"; };
 		8BB42814204ABE11003CDBEC /* ConcatTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcatTextField.swift; sourceTree = "<group>"; };
 		8BB8B11F204AC703003CA23B /* EmailAddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailAddressViewController.swift; sourceTree = "<group>"; };
@@ -150,6 +154,7 @@
 		8B4E0C9E2046A42000E09E55 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				8B925BE9204E623800CFD2EC /* CircleGraphView.swift */,
 				8B4E0CA12046A70800E09E55 /* DataController.swift */,
 				8B4E0C9F2046A44700E09E55 /* Helper.swift */,
 				8B4E0CA32046A7CF00E09E55 /* UserPreference.swift */,
@@ -167,6 +172,7 @@
 				8BED05032046AFA0004B7492 /* ScanViewController.swift */,
 				8BB8B11F204AC703003CA23B /* EmailAddressViewController.swift */,
 				8BB8B121204AC9A9003CA23B /* PasswordViewController.swift */,
+				8B925BE7204E604F00CFD2EC /* OverviewViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -312,9 +318,11 @@
 				8BB8B120204AC703003CA23B /* EmailAddressViewController.swift in Sources */,
 				8BB8B122204AC9A9003CA23B /* PasswordViewController.swift in Sources */,
 				8B4E0C7020469F8A00E09E55 /* LoginViewController.swift in Sources */,
+				8B925BE8204E604F00CFD2EC /* OverviewViewController.swift in Sources */,
 				8B4E0C6E20469F8A00E09E55 /* AppDelegate.swift in Sources */,
 				8B4E0C7620469F8A00E09E55 /* DeliverApp.xcdatamodeld in Sources */,
 				8B4E0CA02046A44700E09E55 /* Helper.swift in Sources */,
+				8B925BEA204E623800CFD2EC /* CircleGraphView.swift in Sources */,
 				8BED05042046AFA0004B7492 /* ScanViewController.swift in Sources */,
 				8BB42815204ABE11003CDBEC /* ConcatTextField.swift in Sources */,
 			);

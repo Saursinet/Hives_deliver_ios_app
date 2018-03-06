@@ -8,11 +8,15 @@
 
 import UIKit
 
-class PasswordViewController: UIViewController {
+class PasswordViewController: UIViewController, UITextFieldDelegate {
+    
+    var domainName: String?
+    var emailAddress: String?
     
     @IBOutlet weak var passwordLabel: UILabel!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var eyeButton: UIButton!
+    @IBOutlet weak var passwordErrorLabel: UILabel!
     
     @IBOutlet weak var nextButton: UIBarButtonItem!
     
@@ -23,25 +27,40 @@ class PasswordViewController: UIViewController {
         
         // Do any additional setup after loading the view, typically from a nib.
         
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        
         passwordTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         
-        passwordTextField.isSecureTextEntry = true
+        passwordTextField.delegate = self
         
-        //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
-        tap.cancelsTouchesInView = false
+        passwordTextField.enablesReturnKeyAutomatically = false
         
-        view.addGestureRecognizer(tap)
+        passwordErrorLabel.text = "Your password for \(String(describing: domainName!))"
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        passwordTextField.becomeFirstResponder()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if (passwordTextField.text?.count == 0) {
+            passwordTextField.shake()
+            passwordErrorLabel.text = "Incorrect password, try again."
+        } else {
+            loadMainView()
+        }
+        return true
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {
         if (passwordTextField.text?.count != 0) {
             nextButton.tintColor = UIColor(red: 21/255, green: 126/255, blue: 251/255, alpha: 1)
             passwordLabel.isHidden = false
+            passwordTextField.enablesReturnKeyAutomatically = true
         } else {
             nextButton.tintColor = UIColor.lightGray
             passwordLabel.isHidden = true
+            passwordTextField.enablesReturnKeyAutomatically = false
         }
     }
     
@@ -68,7 +87,12 @@ class PasswordViewController: UIViewController {
     }
     
     @IBAction func signIn(_ sender: Any) {
-        loadMainView()
+        if (passwordTextField.text?.count == 0) {
+            passwordTextField.shake()
+            passwordErrorLabel.text = "Incorrect password, try again."
+        } else {
+            loadMainView()
+        }
     }
     
     func loadMainView() {

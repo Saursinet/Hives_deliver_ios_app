@@ -92,9 +92,7 @@ class ScanViewController: UIViewController {
     }
     
     @IBAction func goBackToPreviousViewController(_ sender: Any) {
-        if let navigator = navigationController {
-            navigator.popViewController(animated: true)
-        }
+        dismiss(animated: true, completion: {})
     }
     
     func launchApp(decodedURL: String) {

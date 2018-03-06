@@ -8,9 +8,24 @@
 
 import UIKit
 
-class WorkspaceViewController: UIViewController {
+public extension UIView {
+    
+    func shake(count : Float = 4,for duration : TimeInterval = 0.5,withTranslation translation : Float = -5) {
+        
+        let animation : CABasicAnimation = CABasicAnimation(keyPath: "transform.translation.x")
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        animation.repeatCount = count
+        animation.duration = duration/TimeInterval(animation.repeatCount)
+        animation.autoreverses = true
+        animation.byValue = translation
+        layer.add(animation, forKey: "shake")
+    }
+}
+
+class WorkspaceViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var workspaceTextField: UITextField!
+    @IBOutlet weak var errorWorkspaceLabel: UILabel!
     
     @IBOutlet weak var nextButton: UIBarButtonItem!
     
@@ -22,27 +37,37 @@ class WorkspaceViewController: UIViewController {
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
         
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        
         workspaceTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        
-        //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
-        tap.cancelsTouchesInView = false
-        
-        view.addGestureRecognizer(tap)
+        workspaceTextField.delegate = self
     }
     
-    @objc func textFieldDidChange(_ textField: UITextField) {
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        workspaceTextField.becomeFirstResponder()
+        workspaceTextField.enablesReturnKeyAutomatically = false
+    }
+    
+    @objc private func textFieldDidChange(_ textField: UITextField) {
         if (workspaceTextField.text?.count != 0) {
             nextButton.tintColor = UIColor(red: 21/255, green: 126/255, blue: 251/255, alpha: 1)
+            workspaceTextField.enablesReturnKeyAutomatically = true
         } else {
             nextButton.tintColor = UIColor.lightGray
+            workspaceTextField.enablesReturnKeyAutomatically = false
         }
     }
     
-    @objc func dismissKeyboard(_sender: Any) {
-        //Causes the view (or one of its embedded text fields) to resign the first responder status.
-        view.endEditing(true)
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        if (workspaceTextField.text?.count != 0) {
+            performSegue(withIdentifier: "goToUsernameView", sender: nil)
+        } else {
+            workspaceTextField.shake()
+            errorWorkspaceLabel.text = "That workspace doesn't exist, try again."
+            errorWorkspaceLabel.isHidden = false
+        }
+        
+        return true
     }
     
     override func didReceiveMemoryWarning() {
@@ -54,11 +79,9 @@ class WorkspaceViewController: UIViewController {
         if let ident = identifier {
             if ident == "goToUsernameView" {
                 if (workspaceTextField.text?.count == 0) {
-                    DispatchQueue.main.async {
-                        let alert = UIAlertController(title: "No workspace correspond", message: "Try another workspace.", preferredStyle: UIAlertControllerStyle.alert)
-                        alert.addAction(UIAlertAction(title: "Sign in", style: UIAlertActionStyle.default, handler: nil))
-                        self.present(alert, animated: true, completion: nil)
-                    }
+                    workspaceTextField.shake()
+                    errorWorkspaceLabel.text = "That workspace doesn't exist, try again."
+                    errorWorkspaceLabel.isHidden = false
                     return false
                 }
             }
@@ -73,6 +96,9 @@ class WorkspaceViewController: UIViewController {
         navigationController?.navigationBar.backIndicatorImage = #imageLiteral(resourceName: "back-arrow")
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = #imageLiteral(resourceName: "back-arrow")
         navigationController?.navigationBar.tintColor = UIColor.black
+        
+        let destinationVC = segue.destination as! EmailAddressViewController
+        destinationVC.domainName = workspaceTextField.text!
     }
 }
 
