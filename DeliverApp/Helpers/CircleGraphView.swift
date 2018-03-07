@@ -23,15 +23,34 @@ class CircleGraphView: UIView {
             setNeedsDisplay()
         }
     }
+    var lastEndArc:CGFloat = 0.0
     var arcWidth:CGFloat = 5.0
     var arcColor = UIColor.yellow
     var arcBackgroundColor = UIColor.black
     
+    var timeBetweenDraw:CFTimeInterval = 0.01
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setup()
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
+    
+    func setup() {
+        Timer.scheduledTimer(timeInterval: timeBetweenDraw, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        
+    }
+    
     override func draw(_ rect: CGRect) {
         // Drawing code
+        
         let fullCircle = 2.0 * CGFloat(Double.pi)
         let start:CGFloat = -0.25 * fullCircle
-        let end:CGFloat = endArc * fullCircle + start
+        let end:CGFloat = lastEndArc * fullCircle + start
         
         var centerPoint = CGPoint(x: rect.midX, y: rect.midY)
 
@@ -64,4 +83,10 @@ class CircleGraphView: UIView {
         context!.strokePath()
     }
 
+    @objc func updateTimer() {
+        if lastEndArc < endArc {
+            lastEndArc += 0.01
+            setNeedsDisplay()
+        }
+    }
 }

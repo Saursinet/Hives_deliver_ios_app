@@ -47,6 +47,18 @@ class MainViewController: UIViewController {
         }
     }
     
+//    @IBAction func showRouteOverview(_ sender: Any) {
+//        if (routeNumberTextField.text?.count == 0) {
+//            routeNumberTextField.shake()
+//            routeNumberErrorLabel.text = "No route found."
+//            routeNumberErrorLabel.isHidden = false
+//            return ;
+//        }
+//        if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "OverviewViewController") as? OverviewViewController {
+//            self.navigationController?.pushViewController(viewController, animated: true)
+//        }
+//    }
+
     override func shouldPerformSegue(withIdentifier identifier: String?, sender: Any?) -> Bool {
         if let ident = identifier {
             if ident == "goToRouteOverview" {
@@ -62,15 +74,17 @@ class MainViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        let backItem = UIBarButtonItem()
-//        backItem.title = ""
-//        navigationItem.backBarButtonItem = backItem // This will show in the next view controller being pushed
-//        navigationController?.navigationBar.backIndicatorImage = #imageLiteral(resourceName: "back-arrow")
-//        navigationController?.navigationBar.backIndicatorTransitionMaskImage = #imageLiteral(resourceName: "back-arrow")
-//        navigationController?.navigationBar.tintColor = UIColor.black
+        let backItem = UIBarButtonItem()
+        backItem.title = ""
+        navigationItem.backBarButtonItem = backItem // This will show in the next view controller being pushed
+        navigationController?.navigationBar.backIndicatorImage = #imageLiteral(resourceName: "back-arrow")
+        navigationController?.navigationBar.backIndicatorTransitionMaskImage = #imageLiteral(resourceName: "back-arrow")
+        navigationController?.navigationBar.tintColor = UIColor.black
         
-//        let destinationVC = segue.destination as! PasswordViewController
-//        destinationVC.domainName = domainName
-//        destinationVC.emailAddress = emailTextField.text!
+         let destinationVC = segue.destination as! OverviewViewController
+        destinationVC.data =
+            [Stop(id: 0, delivered: false, name: "7-11"),
+        Stop(id: 1, delivered: false, name: "Starbucks"),
+        Stop(id: 2, delivered: false, name: "Get Buy")]
     }
 }
