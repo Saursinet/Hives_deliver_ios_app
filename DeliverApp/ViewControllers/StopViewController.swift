@@ -8,8 +8,7 @@
 
 import UIKit
 
-protocol ChildViewControllerDelegate
-{
+protocol ChildViewControllerDelegate {
     func childViewControllerResponse(stop:Stop)
 }
 
@@ -20,12 +19,14 @@ class StopViewController: UIViewController {
     var delegate: OverviewViewController?
     
     @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var deliveredButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         nameLabel.text = stop?.name
+        addressLabel.numberOfLines = 0
         
         Helper.setValidateDesignToButton(button: deliveredButton)
         // Do any additional setup after loading the view.

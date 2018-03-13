@@ -59,6 +59,8 @@ class MainViewController: UIViewController {
 //        }
 //    }
 
+    @IBAction func unwindToSearch(segue: UIStoryboardSegue) {}
+    
     override func shouldPerformSegue(withIdentifier identifier: String?, sender: Any?) -> Bool {
         if let ident = identifier {
             if ident == "goToRouteOverview" {

@@ -66,7 +66,13 @@ class OverviewViewController: UIViewController, UITableViewDataSource, UITableVi
 
         stopTableView.reloadData()
         if (nbDelivered == data.count) {
-            
+            let alertController = UIAlertController(title: "Route finished", message:
+                "You just finished to deliver all stops on that route.", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default ,handler: {
+                (_)in
+                self.performSegue(withIdentifier: "unwindToSearch", sender: self)
+            }))
+            self.present(alertController, animated: true, completion: nil)
         }
     }
     
