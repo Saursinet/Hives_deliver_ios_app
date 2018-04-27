@@ -43,12 +43,7 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if (passwordTextField.text?.count == 0) {
-            passwordTextField.shake()
-            passwordErrorLabel.text = "Incorrect password, try again."
-        } else {
-            loadMainView()
-        }
+        executeRequestToLogin()
         return true
     }
     
@@ -87,11 +82,27 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func signIn(_ sender: Any) {
+        executeRequestToLogin()
+    }
+    
+    func executeRequestToLogin() {
         if (passwordTextField.text?.count == 0) {
             passwordTextField.shake()
             passwordErrorLabel.text = "Incorrect password, try again."
         } else {
-            loadMainView()
+            DataController.login(workspace: domainName!, email: emailAddress!, password: passwordTextField.text!) { (success, message) -> () in
+                if success {
+                    print("success")
+                    self.loadMainView()
+                } else {
+                    print(message)
+                    DispatchQueue.main.async {
+                        let alert = UIAlertController(title: "Sign in failed", message: "L'addresse email ou le mot de passe ne correspond pas.", preferredStyle: UIAlertControllerStyle.alert)
+                        alert.addAction(UIAlertAction(title: "Sign in", style: UIAlertActionStyle.default, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                }
+            }
         }
     }
     

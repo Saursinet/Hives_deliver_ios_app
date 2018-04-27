@@ -98,7 +98,7 @@ class WorkspaceViewController: UIViewController, UITextFieldDelegate {
         navigationController?.navigationBar.tintColor = UIColor.black
         
         let destinationVC = segue.destination as! EmailAddressViewController
-        destinationVC.domainName = workspaceTextField.text!
+        destinationVC.domainName = (workspaceTextField as! ConcatTextField).typedText
     }
 }
 

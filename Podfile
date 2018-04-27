@@ -10,7 +10,7 @@ target 'DeliverApp' do
   pod 'GooglePlaces'
   pod 'SwiftyJSON'
   pod 'Alamofire'
-
+  
   target 'DeliverAppTests' do
     inherit! :search_paths
     # Pods for testing

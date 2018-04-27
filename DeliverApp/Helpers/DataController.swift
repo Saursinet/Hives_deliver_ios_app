@@ -49,7 +49,7 @@ class DataController {
     }
     
     private static func clientURLRequest(path: String, params: Dictionary<String, Any>? = nil) -> URLRequest {
-        var request = URLRequest(url: URL(string: "http://51.15.204.196:6969/" + path)!)
+        var request = URLRequest(url: URL(string: "http://212.47.242.70:9000/v1/" + path)!)
         
         if params != nil {
             do {
@@ -61,7 +61,6 @@ class DataController {
             }
         }
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         if token != "" {
             request.setValue(token, forHTTPHeaderField: "x-access-token")
@@ -70,18 +69,16 @@ class DataController {
         return request
     }
     
-    static func login(email: String, password: String, completion: @escaping (_ success: Bool, _ message: String?) -> ()) {
-        let loginObject = ["email": email, "password": password]
+    static func login(workspace: String, email: String, password: String, completion: @escaping (_ success: Bool, _ message: String?) -> ()) {
+        let loginObject = ["workspace": workspace, "email": email, "password": password]
         
-        post(request: clientURLRequest(path: "api/signin", params: loginObject)) { (success, json, response) -> () in
+        post(request: clientURLRequest(path: "signin", params: loginObject)) { (success, json, response) -> () in
             DispatchQueue.main.async { () -> Void in
                 if success {
-                    print("success")
                     print(json!)
                     userPreferences.storeToken(json: json as! [String : AnyObject])
                     completion(true, nil)
                 } else {
-                    print("error")
                     completion(false, String(describing: response))
                 }
             }
