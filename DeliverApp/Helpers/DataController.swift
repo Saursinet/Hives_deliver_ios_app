@@ -84,4 +84,36 @@ class DataController {
             }
         }
     }
+    
+    static func findRoute(route: String, completion: @escaping (_ success: Bool, _ message: String?) -> ()) {
+        token = userPreferences.get(key: "Token")
+        
+        get(request: clientURLRequest(path: "direction/" + route)) { (success, json, response) -> () in
+            DispatchQueue.main.async { () -> Void in
+                token = ""
+                if success {
+                    print(json!)
+                    completion(true, nil)
+                } else {
+                    completion(false, String(describing: response))
+                }
+            }
+        }
+    }
+    
+    static func findStops(completion: @escaping (_ success: Bool, _ message: String?, _ data: NSArray) -> ()) {
+        token = userPreferences.get(key: "Token")
+        
+        get(request: clientURLRequest(path: "stops")) { (success, json, response) -> () in
+            DispatchQueue.main.async { () -> Void in
+                token = ""
+                if success {
+                    print(json!)
+                    completion(true, nil, (json as? NSArray)!)
+                } else {
+                    completion(false, nil, NSArray())
+                }
+            }
+        }
+    }
 }

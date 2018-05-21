@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class OverviewViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -94,12 +95,24 @@ class OverviewViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let backItem = UIBarButtonItem()
-        backItem.title = ""
-        navigationItem.backBarButtonItem = backItem // This will show in the next view controller being pushed
-        navigationController?.navigationBar.backIndicatorImage = #imageLiteral(resourceName: "back-arrow")
-        navigationController?.navigationBar.backIndicatorTransitionMaskImage = #imageLiteral(resourceName: "back-arrow")
-        navigationController?.navigationBar.tintColor = UIColor.black
+        if (segue.identifier == "goToMap") {
+            let backItem = UIBarButtonItem()
+            backItem.title = ""
+            navigationItem.backBarButtonItem = backItem // This will show in the next view controller being pushed
+            navigationController?.navigationBar.backIndicatorImage = #imageLiteral(resourceName: "back-arrow")
+            navigationController?.navigationBar.backIndicatorTransitionMaskImage = #imageLiteral(resourceName: "back-arrow")
+            navigationController?.navigationBar.tintColor = UIColor.black
+            let destinationVC = segue.destination as! MapViewController
+            var stop: Stop?
+            var found: Bool = false
+            for stopTmp in data {
+                if !stopTmp.delivered && !found {
+                    stop = stopTmp
+                    found = true
+                }
+            }
+            destinationVC.locationEnd = CLLocation(latitude: (stop?.latitude)!, longitude: (stop?.longitude)!)
+        }
     }
     
     func childViewControllerResponse(param: Stop)

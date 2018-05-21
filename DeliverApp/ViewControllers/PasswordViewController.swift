@@ -95,7 +95,7 @@ class PasswordViewController: UIViewController, UITextFieldDelegate {
                     print("success")
                     self.loadMainView()
                 } else {
-                    print(message)
+                    print(message ?? "")
                     DispatchQueue.main.async {
                         let alert = UIAlertController(title: "Sign in failed", message: "L'addresse email ou le mot de passe ne correspond pas.", preferredStyle: UIAlertControllerStyle.alert)
                         alert.addAction(UIAlertAction(title: "Sign in", style: UIAlertActionStyle.default, handler: nil))

@@ -52,7 +52,7 @@ class CircleGraphView: UIView {
         let start:CGFloat = -0.25 * fullCircle
         let end:CGFloat = lastEndArc * fullCircle + start
         
-        var centerPoint = CGPoint(x: rect.midX, y: rect.midY)
+        let centerPoint = CGPoint(x: rect.midX, y: rect.midY)
 
         //define the radius by the smallest side of the view
         var radius:CGFloat = 0.0
@@ -66,7 +66,7 @@ class CircleGraphView: UIView {
         let context = UIGraphicsGetCurrentContext()
         
         //set colorspace
-        let colorspace = CGColorSpaceCreateDeviceRGB()
+        _ = CGColorSpaceCreateDeviceRGB()
         
         //set line attributes
         context!.setLineWidth(arcWidth)

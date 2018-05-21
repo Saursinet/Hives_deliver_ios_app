@@ -39,6 +39,8 @@ class WorkspaceViewController: UIViewController, UITextFieldDelegate {
         
         workspaceTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         workspaceTextField.delegate = self
+        
+        checkIfTokenExist()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -99,6 +101,18 @@ class WorkspaceViewController: UIViewController, UITextFieldDelegate {
         
         let destinationVC = segue.destination as! EmailAddressViewController
         destinationVC.domainName = (workspaceTextField as! ConcatTextField).typedText
+    }
+    
+    func checkIfTokenExist() {
+        let currentLevelKey = "Token"
+        
+        if userPreferences.exist(key: currentLevelKey) {
+            let appDelegate = UIApplication.shared.delegate! as! AppDelegate
+            
+            let initialViewController = self.storyboard!.instantiateViewController(withIdentifier: "NavigationController")
+            appDelegate.window?.rootViewController = initialViewController
+            appDelegate.window?.makeKeyAndVisible()
+        }
     }
 }
 
