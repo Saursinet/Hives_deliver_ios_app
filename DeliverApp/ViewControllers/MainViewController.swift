@@ -25,7 +25,6 @@ class MainViewController: UIViewController, UITextFieldDelegate {
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         
-//        Uncomment the line below if you want the tap not not interfere and cancel other interactions.
         tap.cancelsTouchesInView = false
         routeNumberTextField.delegate = self
         
@@ -52,18 +51,6 @@ class MainViewController: UIViewController, UITextFieldDelegate {
             present(viewController, animated: true, completion: {})
         }
     }
-    
-//    @IBAction func showRouteOverview(_ sender: Any) {
-//        if (routeNumberTextField.text?.count == 0) {
-//            routeNumberTextField.shake()
-//            routeNumberErrorLabel.text = "No route found."
-//            routeNumberErrorLabel.isHidden = false
-//            return ;
-//        }
-//        if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "OverviewViewController") as? OverviewViewController {
-//            self.navigationController?.pushViewController(viewController, animated: true)
-//        }
-//    }
 
     @IBAction func unwindToSearch(segue: UIStoryboardSegue) {}
     
@@ -78,55 +65,42 @@ class MainViewController: UIViewController, UITextFieldDelegate {
             routeNumberErrorLabel.isHidden = false
             return
         }
-//        DataController.findRoute(route: routeNumberTextField.text!) { (success, message) -> () in
-//            if success {
-//                if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "OverviewViewController") as? OverviewViewController {
-//                    viewController.data =
-//                        [Stop(id: 0, delivered: false, name: "7-11"),
-//                         Stop(id: 1, delivered: false, name: "Starbucks"),
-//                         Stop(id: 2, delivered: false, name: "Get Buy")]
-//                    self.navigationController?.pushViewController(viewController, animated: true)
-//                }
-//            } else {
-//                print(message ?? "")
-//            }
-//        }
 
         DataController.findStops() { (success, message, json) -> () in
+//        DataController.findRoute(route: routeNumberTextField.text!) { (success, message, json) -> () in
                 if success {
                     var stopList = [Stop]()
                     for obj in json {
                         if let dict = obj as? NSDictionary {
-                            stopList.append(Stop(id: dict.value(forKey: "ID") as! Int, delivered: false, name: dict.value(forKey: "Name") as! String, latitude: dict.value(forKey: "Latitude") as! Double, longitude: dict.value(forKey: "Longitude") as! Double))
+                            if (dict.value(forKey: "ID") != nil && dict.value(forKey: "Name") != nil && (dict.value(forKey: "Latitude") != nil) && (dict.value(forKey: "Longitude") != nil)) {
+                                stopList.append(Stop(id: dict.value(forKey: "ID") as! Int, delivered: false, name: dict.value(forKey: "Name") as! String, latitude: dict.value(forKey: "Latitude") as! Double, longitude: dict.value(forKey: "Longitude") as! Double))
+                            }
                         }
+                    }
+                    if (stopList.count == 0) {
+                        DispatchQueue.main.async {
+                            let alert = UIAlertController(title: "Couldn't load route", message: "Verify the route number", preferredStyle: UIAlertControllerStyle.alert)
+                            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+                            self.present(alert, animated: true, completion: nil)
+                        }
+                        return
                     }
                     if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "OverviewViewController") as? OverviewViewController {
                         viewController.data = stopList
-//                            [Stop(id: 0, delivered: false, name: "7-11"),
-//                                Stop(id: 1, delivered: false, name: "Starbucks"),
-//                                Stop(id: 2, delivered: false, name: "Get Buy")]
                         self.navigationController?.pushViewController(viewController, animated: true)
                     }
                 } else {
                     print(message ?? "")
+                    DispatchQueue.main.async {
+                        let alert = UIAlertController(title: "Couldn't load route", message: "Verify the route number", preferredStyle: UIAlertControllerStyle.alert)
+                        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                    }
                 }
             }
 
     }
-//    override func shouldPerformSegue(withIdentifier identifier: String?, sender: Any?) -> Bool {
-//        if let ident = identifier {
-//            if ident == "goToRouteOverview" {
-//                if (routeNumberTextField.text?.count == 0) {
-//                    routeNumberTextField.shake()
-//                    routeNumberErrorLabel.text = "No route found."
-//                    routeNumberErrorLabel.isHidden = false
-//                    return false
-//                }
-//            }
-//        }
-//        return true
-//    }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let backItem = UIBarButtonItem()
         backItem.title = ""
@@ -134,12 +108,6 @@ class MainViewController: UIViewController, UITextFieldDelegate {
         navigationController?.navigationBar.backIndicatorImage = #imageLiteral(resourceName: "back-arrow")
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = #imageLiteral(resourceName: "back-arrow")
         navigationController?.navigationBar.tintColor = UIColor.black
-        
-//         let destinationVC = segue.destination as! OverviewViewController
-//        destinationVC.data =
-//            [Stop(id: 0, delivered: false, name: "7-11"),
-//        Stop(id: 1, delivered: false, name: "Starbucks"),
-//        Stop(id: 2, delivered: false, name: "Get Buy")]
     }
     
     @IBAction func logout(_ sender: Any) {

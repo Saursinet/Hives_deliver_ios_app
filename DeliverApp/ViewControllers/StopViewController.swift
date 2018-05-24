@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GoogleMaps
 
 protocol ChildViewControllerDelegate {
     func childViewControllerResponse(stop:Stop)
@@ -26,10 +27,25 @@ class StopViewController: UIViewController {
         super.viewDidLoad()
 
         nameLabel.text = stop?.name
+        
         addressLabel.numberOfLines = 0
         
         Helper.setValidateDesignToButton(button: deliveredButton)
         // Do any additional setup after loading the view.
+        
+        findNamePlace()
+    }
+    
+    func findNamePlace() {
+        let geocoder = GMSGeocoder()
+        
+        // 2
+        geocoder.reverseGeocodeCoordinate(CLLocationCoordinate2D(latitude: (stop?.latitude)!, longitude: (stop?.longitude)!)) { response, error in
+            guard let address = response?.firstResult(), let lines = address.lines else {
+                return
+            }
+            self.addressLabel.text = lines.joined(separator: "\n")
+        }
     }
 
     override func didReceiveMemoryWarning() {

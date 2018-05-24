@@ -85,7 +85,7 @@ class DataController {
         }
     }
     
-    static func findRoute(route: String, completion: @escaping (_ success: Bool, _ message: String?) -> ()) {
+    static func findRoute(route: String, completion: @escaping (_ success: Bool, _ message: String?, _ data: NSArray) -> ()) {
         token = userPreferences.get(key: "Token")
         
         get(request: clientURLRequest(path: "direction/" + route)) { (success, json, response) -> () in
@@ -93,9 +93,9 @@ class DataController {
                 token = ""
                 if success {
                     print(json!)
-                    completion(true, nil)
+                    completion(true, nil, (json as? NSArray)!)
                 } else {
-                    completion(false, String(describing: response))
+                    completion(false, nil, NSArray())
                 }
             }
         }

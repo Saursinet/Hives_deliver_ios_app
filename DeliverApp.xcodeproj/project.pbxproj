@@ -714,7 +714,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1EFA63D06E06BF32C34B1A36 /* Pods-DeliverApp.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TWF33RR987;
 				INFOPLIST_FILE = DeliverApp/Info.plist;
@@ -730,7 +730,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C64398FB642540801FE9A5A0 /* Pods-DeliverApp.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TWF33RR987;
 				INFOPLIST_FILE = DeliverApp/Info.plist;
